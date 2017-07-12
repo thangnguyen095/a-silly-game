@@ -26,9 +26,9 @@ var path = require('path');
 			img.src = '/images/Walk ('+i+').png';
 			walk.push(img);
 		}
-		test.animator.addState('idle', 50);
+		test.animator.addState('idle', 50, true);
 		test.animator.addImages('idle', idle);
-		test.animator.addState('walk', 50);
+		test.animator.addState('walk', 50, true);
 		test.animator.addImages('walk', walk);
 		test.width = 100;
 		test.height = 120;
@@ -69,10 +69,10 @@ var path = require('path');
 		objects.foreground.forEach(function(item){
 			item.draw(ctx);
 		});
+
+		window.requestAnimationFrame(main);
 	}
 
-	// window.requestAnimationFrame(main);
-	gi = setInterval(main, 1000/60);
-	// main();
+	window.requestAnimationFrame(main);
 
 })();

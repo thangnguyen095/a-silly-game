@@ -35,7 +35,13 @@ module.exports = function(){
 	}
 
 	function nextImage(){
-		__i = ++__i%(states[activeState].images.length);
+		if(states[activeState].loop){
+			__i = ++__i%(states[activeState].images.length);
+		}else{
+			__i++;
+			__i = Math.min(__i, states[activeState].images.length-1);
+		}
+
 	}
 
 	this.changeState = function changeState(str){
@@ -53,8 +59,8 @@ module.exports = function(){
 		return false;
 	}
 
-	this.addState = function addState(name, speed){
-		var state = {name: name, speed: speed, images: null}
+	this.addState = function addState(name, speed, loop){
+		var state = {name: name, speed: speed, images: null, loop: loop}
 		states.push(state);
 		if(activeState == null)
 		{

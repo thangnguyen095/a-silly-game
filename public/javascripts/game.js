@@ -95,9 +95,9 @@ var path = __webpack_require__(5);
 			img.src = '/images/Walk ('+i+').png';
 			walk.push(img);
 		}
-		test.animator.addState('idle', 50);
+		test.animator.addState('idle', 50, true);
 		test.animator.addImages('idle', idle);
-		test.animator.addState('walk', 50);
+		test.animator.addState('walk', 50, true);
 		test.animator.addImages('walk', walk);
 		test.width = 100;
 		test.height = 120;
@@ -138,11 +138,11 @@ var path = __webpack_require__(5);
 		objects.foreground.forEach(function(item){
 			item.draw(ctx);
 		});
+
+		window.requestAnimationFrame(main);
 	}
 
-	// window.requestAnimationFrame(main);
-	gi = setInterval(main, 1000/60);
-	// main();
+	window.requestAnimationFrame(main);
 
 })();
 
@@ -260,7 +260,13 @@ module.exports = function(){
 	}
 
 	function nextImage(){
-		__i = ++__i%(states[activeState].images.length);
+		if(states[activeState].loop){
+			__i = ++__i%(states[activeState].images.length);
+		}else{
+			__i++;
+			__i = Math.min(__i, states[activeState].images.length-1);
+		}
+
 	}
 
 	this.changeState = function changeState(str){
@@ -278,8 +284,8 @@ module.exports = function(){
 		return false;
 	}
 
-	this.addState = function addState(name, speed){
-		var state = {name: name, speed: speed, images: null}
+	this.addState = function addState(name, speed, loop){
+		var state = {name: name, speed: speed, images: null, loop: loop}
 		states.push(state);
 		if(activeState == null)
 		{
