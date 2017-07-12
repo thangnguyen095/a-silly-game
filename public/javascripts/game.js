@@ -96,7 +96,7 @@ var Sprite = __webpack_require__(2);
 		objects.background.push(bg);
 		var test = new Player();
 		test.width = 100;
-		test.height = 120;
+		test.height = 71;
 		test.posX = 0;
 		test.posY = 0;
 		test.init();
@@ -168,7 +168,7 @@ module.exports = function(){
 	var veloY = 5;
 	var faceRight = true;
 	var jumping = false;
-	var jumpHeight = 200;
+	var jumpHeight = 150;
 	var jumpForce = 0;
 	var weight = 0.2;
 
@@ -179,20 +179,28 @@ module.exports = function(){
 		input.addKey('d', 68); // right
 		var idle = new Array();
 		var walk = new Array();
-		for(var i = 1; i <= 15; i++){
+		var jump = new Array();
+		for(var i = 1; i <= 16; i++){
 			var img = new Image();
-			img.src = '/images/Idle-' +i+ '.png';
+			img.src = '/images/Idle ('+i+').png';
 			idle.push(img);
 		}
-		for(var i = 1; i <= 10; i++){
+		for(var i = 1; i <= 13; i++){
 			var img = new Image();
 			img.src = '/images/Walk ('+i+').png';
 			walk.push(img);
+		}
+		for(var i = 1; i <= 16; i++){
+			var img = new Image();
+			img.src = '/images/Jump ('+i+').png';
+			jump.push(img);
 		}
 		this.animator.addState('idle', 50, true);
 		this.animator.addImages('idle', idle);
 		this.animator.addState('walk', 50, true);
 		this.animator.addImages('walk', walk);
+		this.animator.addState('jump', 50, false);
+		this.animator.addImages('jump', jump);
 	}
 
 	this.isCollising = function isCollising(obj){
@@ -203,6 +211,7 @@ module.exports = function(){
 		jumping = false;
 		veloY = 5;
 		this.posY = obj.posY - this.height;
+		// this.animator.changeState('idle');
 	}
 
 	this.update = function update(){
@@ -210,22 +219,26 @@ module.exports = function(){
 		if(faceRight){
 			if(input.getKeyState('d') == 'down'){
 				this.posX += veloX;
-				this.animator.changeState('walk');
+				if(!jumping)
+					this.animator.changeState('walk');
 			}else if(input.getKeyState('a') == 'down'){
 				faceRight = false;
 				this.animator.flip();
 			}else{
-				this.animator.changeState('idle');
+				if(!jumping)
+					this.animator.changeState('idle');
 			}
 		}else{ // face left
 			if(input.getKeyState('a') == 'down'){
 				this.posX -= veloX;
-				this.animator.changeState('walk');
+				if(!jumping)
+					this.animator.changeState('walk');
 			}else if(input.getKeyState('d') == 'down'){
 				faceRight = true;
 				this.animator.flip();
 			}else{
-				this.animator.changeState('idle');
+				if(!jumping)
+					this.animator.changeState('idle');
 			}
 		}
 
@@ -233,10 +246,16 @@ module.exports = function(){
 		if(input.getKeyState('w') == 'down' && !jumping){
 			jumpForce = jumpHeight;
 			jumping = true;
+			this.animator.changeState('jump');
 		}
 		if(jumpForce != 0){
 			jumpForce -= veloY;
 			this.posY -= veloY;
+			veloY += weight;
+			if(jumpForce <= 0){
+				jumpForce = 0;
+				veloY = 5;
+			}
 		}else{
 			this.posY += veloY;
 			veloY += weight;

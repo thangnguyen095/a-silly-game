@@ -27,7 +27,7 @@ var Sprite = require('./game-objects/sprite');
 		objects.background.push(bg);
 		var test = new Player();
 		test.width = 100;
-		test.height = 120;
+		test.height = 71;
 		test.posX = 0;
 		test.posY = 0;
 		test.init();
