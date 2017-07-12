@@ -33,8 +33,7 @@ var Sprite = require('./game-objects/sprite');
 		test.init();
 
 		objects.movable.push(test);
-		for(var i = 0; i < 5; i++){
-
+		for(var i = 0; i < 10; i++){
 			var gr = new Ground();
 			gr.width = 100;
 			gr.height = 100;
@@ -56,7 +55,7 @@ var Sprite = require('./game-objects/sprite');
 			item.update();
 			for(var i = 0; i < objects.immovable.length; i++){
 				if(item.isCollising(objects.immovable[i])){
-					item.handleCollise(objects.immovable[i]);
+					item.handleCollision(objects.immovable[i]);
 				}
 			}
 		});

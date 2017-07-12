@@ -102,8 +102,7 @@ var Sprite = __webpack_require__(2);
 		test.init();
 
 		objects.movable.push(test);
-		for(var i = 0; i < 5; i++){
-
+		for(var i = 0; i < 10; i++){
 			var gr = new Ground();
 			gr.width = 100;
 			gr.height = 100;
@@ -125,7 +124,7 @@ var Sprite = __webpack_require__(2);
 			item.update();
 			for(var i = 0; i < objects.immovable.length; i++){
 				if(item.isCollising(objects.immovable[i])){
-					item.handleCollise(objects.immovable[i]);
+					item.handleCollision(objects.immovable[i]);
 				}
 			}
 		});
@@ -207,11 +206,25 @@ module.exports = function(){
 		return (this.posX < (obj.posX + obj.width) && (this.posX + this.width) > obj.posX && this.posY < (obj.posY + obj.height) && (this.posY + this.height) > obj.posY);
 	}
 
-	this.handleCollise = function handleCollise(obj){
-		jumping = false;
-		veloY = 5;
-		this.posY = obj.posY - this.height;
-		// this.animator.changeState('idle');
+	this.handleCollision = function handleCollision(obj){
+		if((this.posY + this.height) > obj.posY){
+			jumping = false;
+			veloY = 5;
+			this.posY = obj.posY - this.height;
+			console.log('below');
+		}
+		// if(this.posY < (obj.posY + obj.height)){
+		// 	this.posY = obj.posY + obj.height;
+		// 	console.log('above');
+		// }
+		// if((this.posX + this.width) > obj.posX){
+		// 	this.posX = obj.posX - this.width;
+		// 	console.log('right');
+		// }
+		// if(this.posX < (obj.posX + obj.width)){
+		// 	this.posX = obj.posX + obj.width;
+		// 	console.log('left');
+		// }
 	}
 
 	this.update = function update(){
