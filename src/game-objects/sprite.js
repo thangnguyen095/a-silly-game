@@ -1,14 +1,12 @@
 var Animator = require('./animator');
 module.exports = function(){
-	var animator = new Animator();
-	var posX, posY;
-	var width, height;
+	this.animator = new Animator();
+	this.posX;
+	this.posY;
+	this.width;
+	this.height;
 
-	function draw(ctx){
-		animator.draw(ctx);
-	}
-
-	function update(){
-
+	this.draw = function draw(ctx){
+		this.animator.draw(ctx, this.posX, this.posY, this.width, this.height);
 	}
 }

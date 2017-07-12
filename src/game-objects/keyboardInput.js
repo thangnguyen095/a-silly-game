@@ -1,21 +1,24 @@
 module.exports = function(){
 	var keys = new Array();
 
-	function addKey(name, code){
+	this.addKey = function addKey(name, code){
 		var key = {
 			name: name,
 			code: code,
 			state: null
 		}
 		keys.push(key);
+		console.log(keys);
 	}
 
-	function getKeyState(name){
-		keys.forEach(function(item){
-			if(item.name == name){
-				return item.state;
+	this.getKeyState = function getKeyState(name){
+		for(var i = 0; i < keys.length; i++){
+			if(keys[i].name == name){
+				console.log(keys[i].state);
+				return keys[i].state;
 			}
-		});
+		}
+		console.log('error');
 		return null;
 	}
 
@@ -24,6 +27,7 @@ module.exports = function(){
 		keys.forEach(function(item){
 			if(code == item.code){
 				item.state = 'down';
+				console.log(item.state);
 			}
 		});
 	}

@@ -1,3 +1,5 @@
+var Player = require('./game-objects/player');
+var path = require('path');
 
 (function(){
 	var canvas = document.getElementById('game');
@@ -10,20 +12,41 @@
 		foreground: new Array()
 	}
 
+	function init(){
+		var test = new Player();
+		var images = new Array();
+		for(var i = 1; i <= 15; i++){
+			var img = new Image();
+			img.src = '/images/Idle-' +i+ '.png';
+			images.push(img);
+		}
+		test.animator.addState('idle', 50);
+		test.animator.addImages('idle', images);
+		test.width = 100;
+		test.height = 120;
+		test.posX = 0;
+		test.posY = 0;
+		test.init();
+
+		objects.playground.push(test);
+	}
+
+	init();
+
 	function main(){
 		// clear canvas
 		ctx.clearRect(0, 0, width, height);
 		// handle interactive objects
-		// objects.playground.forEach(function(item){
-		// 	item.update();
-		// 	objects.playground.forEach(function(item2){
-		// 		if(item2 !== item)
-		// 		{
-		// 			if(item.isCollising(item2);)
-		// 				item.handleCollise(item2);
-		// 		}
-		// 	});
-		// });
+		objects.playground.forEach(function(item){
+			item.update();
+			// objects.playground.forEach(function(item2){
+			// 	if(item2 != item)
+			// 	{
+			// 		if(item.isCollising(item2);)
+			// 			item.handleCollise(item2);
+			// 	}
+			// });
+		});
 
 
 		// draw all background objects
@@ -40,6 +63,8 @@
 		});
 	}
 
-	window.requestAnimationFrame(main);
+	// window.requestAnimationFrame(main);
+	gi = setInterval(main, 100);
+	// main();
 
 })();
