@@ -60,7 +60,7 @@ module.exports = function(){
 	}
 
 	this.addState = function addState(name, speed, loop){
-		var state = {name: name, speed: speed, images: null, loop: loop}
+		var state = {name: name, speed: speed, images: new Array(), loop: loop}
 		states.push(state);
 		if(activeState == null)
 		{

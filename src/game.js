@@ -1,5 +1,6 @@
 var Player = require('./game-objects/player');
-var path = require('path');
+var Ground = require('./game-objects/ground');
+var Sprite = require('./game-objects/sprite');
 
 (function(){
 	var canvas = document.getElementById('game');
@@ -8,35 +9,41 @@ var path = require('path');
 	var ctx = canvas.getContext('2d');
 	var objects = { // 3 layers
 		background: new Array(),
-		playground: new Array(), // interactive objects
+		movable: new Array(),
+		immovable: new Array(), // interactive objects
 		foreground: new Array()
 	}
 
 	function init(){
+		var bg = new Sprite();
+		var img = new Image();
+		img.src = '/images/BG.png';
+		bg.animator.addState('idle', 1000, false);
+		bg.animator.addImage('idle', img);
+		bg.posX = 0;
+		bg.posY = 0;
+		bg.width = 1000;
+		bg.height = 750;
+		objects.background.push(bg);
 		var test = new Player();
-		var idle = new Array();
-		var walk = new Array();
-		for(var i = 1; i <= 15; i++){
-			var img = new Image();
-			img.src = '/images/Idle-' +i+ '.png';
-			idle.push(img);
-		}
-		for(var i = 1; i <= 10; i++){
-			var img = new Image();
-			img.src = '/images/Walk ('+i+').png';
-			walk.push(img);
-		}
-		test.animator.addState('idle', 50, true);
-		test.animator.addImages('idle', idle);
-		test.animator.addState('walk', 50, true);
-		test.animator.addImages('walk', walk);
 		test.width = 100;
 		test.height = 120;
 		test.posX = 0;
 		test.posY = 0;
 		test.init();
 
-		objects.playground.push(test);
+		objects.movable.push(test);
+		for(var i = 0; i < 5; i++){
+
+			var gr = new Ground();
+			gr.width = 100;
+			gr.height = 100;
+			gr.posX = 0 + i*100;
+			gr.posY = 400;
+			gr.init();
+
+			objects.immovable.push(gr);
+		}
 	}
 
 	init();
@@ -45,15 +52,13 @@ var path = require('path');
 		// clear canvas
 		ctx.clearRect(0, 0, width, height);
 		// handle interactive objects
-		objects.playground.forEach(function(item){
+		objects.movable.forEach(function(item){
 			item.update();
-			// objects.playground.forEach(function(item2){
-			// 	if(item2 != item)
-			// 	{
-			// 		if(item.isCollising(item2);)
-			// 			item.handleCollise(item2);
-			// 	}
-			// });
+			for(var i = 0; i < objects.immovable.length; i++){
+				if(item.isCollising(objects.immovable[i])){
+					item.handleCollise(objects.immovable[i]);
+				}
+			}
 		});
 
 
@@ -62,7 +67,10 @@ var path = require('path');
 			item.draw(ctx);
 		});
 		// draw all playground objects
-		objects.playground.forEach(function(item){
+		objects.movable.forEach(function(item){
+			item.draw(ctx);
+		});
+		objects.immovable.forEach(function(item){
 			item.draw(ctx);
 		});
 		// draw all foreground objects
@@ -74,5 +82,4 @@ var path = require('path');
 	}
 
 	window.requestAnimationFrame(main);
-
 })();
