@@ -26,24 +26,20 @@ module.exports = function(){
 
 	this.update = function update(){
 		if(faceRight){
-			console.log('right');
-			console.log(input.getKeyState('d'));
 			if(input.getKeyState('d') == 'down'){
 				this.posX += veloX;
-				console.log(this.posX);
 			}else if(input.getKeyState('a') == 'down'){
 				faceRight = false;
 			}else{
-				console.log('no key pressed');
+
 			}
 		}else{ // face left
-			console.log('left');
 			if(input.getKeyState('a') == 'down'){
 				this.posX -= veloX;
 			}else if(input.getKeyState('d') == 'down'){
 				faceRight = true;
 			}else{
-				console.log('no key pressed');				
+
 			}
 		}
 	}

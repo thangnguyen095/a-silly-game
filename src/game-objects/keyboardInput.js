@@ -8,37 +8,33 @@ module.exports = function(){
 			state: null
 		}
 		keys.push(key);
-		console.log(keys);
 	}
 
 	this.getKeyState = function getKeyState(name){
 		for(var i = 0; i < keys.length; i++){
 			if(keys[i].name == name){
-				console.log(keys[i].state);
 				return keys[i].state;
 			}
 		}
-		console.log('error');
 		return null;
 	}
 
 	function onKeyDown(e){
 		var code = e.which || e.keyCode;
-		keys.forEach(function(item){
-			if(code == item.code){
-				item.state = 'down';
-				console.log(item.state);
+		for(var i = 0; i < keys.length; i++){
+			if(keys[i].code == code)
+			{
+				keys[i].state = 'down';
 			}
-		});
+		}
 	}
 
 	function onKeyUp(e){
 		var code = e.which || e.keyCode;
-		keys.forEach(function(item){
-			if(code == item.code){
-				item.state = null;
-			}
-		});
+		for(var i = 0; i < keys.length; i++){
+			if(keys[i].code == code)
+				keys[i].state = null;
+		}
 	}
 
 	function onKeyPress(e){
@@ -46,6 +42,6 @@ module.exports = function(){
 	}
 
 	window.addEventListener('keydown', onKeyDown);
-	window.addEventListener('keydown', onKeyUp);
-	window.addEventListener('keydown', onKeyPress);
+	window.addEventListener('keyup', onKeyUp);
+	window.addEventListener('keypress', onKeyPress);
 }

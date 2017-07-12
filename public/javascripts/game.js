@@ -170,24 +170,20 @@ module.exports = function(){
 
 	this.update = function update(){
 		if(faceRight){
-			console.log('right');
-			console.log(input.getKeyState('d'));
 			if(input.getKeyState('d') == 'down'){
 				this.posX += veloX;
-				console.log(this.posX);
 			}else if(input.getKeyState('a') == 'down'){
 				faceRight = false;
 			}else{
-				console.log('no key pressed');
+
 			}
 		}else{ // face left
-			console.log('left');
 			if(input.getKeyState('a') == 'down'){
 				this.posX -= veloX;
 			}else if(input.getKeyState('d') == 'down'){
 				faceRight = true;
 			}else{
-				console.log('no key pressed');				
+
 			}
 		}
 	}
@@ -311,37 +307,33 @@ module.exports = function(){
 			state: null
 		}
 		keys.push(key);
-		console.log(keys);
 	}
 
 	this.getKeyState = function getKeyState(name){
 		for(var i = 0; i < keys.length; i++){
 			if(keys[i].name == name){
-				console.log(keys[i].state);
 				return keys[i].state;
 			}
 		}
-		console.log('error');
 		return null;
 	}
 
 	function onKeyDown(e){
 		var code = e.which || e.keyCode;
-		keys.forEach(function(item){
-			if(code == item.code){
-				item.state = 'down';
-				console.log(item.state);
+		for(var i = 0; i < keys.length; i++){
+			if(keys[i].code == code)
+			{
+				keys[i].state = 'down';
 			}
-		});
+		}
 	}
 
 	function onKeyUp(e){
 		var code = e.which || e.keyCode;
-		keys.forEach(function(item){
-			if(code == item.code){
-				item.state = null;
-			}
-		});
+		for(var i = 0; i < keys.length; i++){
+			if(keys[i].code == code)
+				keys[i].state = null;
+		}
 	}
 
 	function onKeyPress(e){
@@ -349,8 +341,8 @@ module.exports = function(){
 	}
 
 	window.addEventListener('keydown', onKeyDown);
-	window.addEventListener('keydown', onKeyUp);
-	window.addEventListener('keydown', onKeyPress);
+	window.addEventListener('keyup', onKeyUp);
+	window.addEventListener('keypress', onKeyPress);
 }
 
 /***/ }),
