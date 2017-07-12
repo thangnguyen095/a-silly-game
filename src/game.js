@@ -14,14 +14,22 @@ var path = require('path');
 
 	function init(){
 		var test = new Player();
-		var images = new Array();
+		var idle = new Array();
+		var walk = new Array();
 		for(var i = 1; i <= 15; i++){
 			var img = new Image();
 			img.src = '/images/Idle-' +i+ '.png';
-			images.push(img);
+			idle.push(img);
+		}
+		for(var i = 1; i <= 10; i++){
+			var img = new Image();
+			img.src = '/images/Walk ('+i+').png';
+			walk.push(img);
 		}
 		test.animator.addState('idle', 50);
-		test.animator.addImages('idle', images);
+		test.animator.addImages('idle', idle);
+		test.animator.addState('walk', 50);
+		test.animator.addImages('walk', walk);
 		test.width = 100;
 		test.height = 120;
 		test.posX = 0;
@@ -64,7 +72,7 @@ var path = require('path');
 	}
 
 	// window.requestAnimationFrame(main);
-	gi = setInterval(main, 100);
+	gi = setInterval(main, 1000/60);
 	// main();
 
 })();

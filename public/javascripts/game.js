@@ -83,14 +83,22 @@ var path = __webpack_require__(5);
 
 	function init(){
 		var test = new Player();
-		var images = new Array();
+		var idle = new Array();
+		var walk = new Array();
 		for(var i = 1; i <= 15; i++){
 			var img = new Image();
 			img.src = '/images/Idle-' +i+ '.png';
-			images.push(img);
+			idle.push(img);
+		}
+		for(var i = 1; i <= 10; i++){
+			var img = new Image();
+			img.src = '/images/Walk ('+i+').png';
+			walk.push(img);
 		}
 		test.animator.addState('idle', 50);
-		test.animator.addImages('idle', images);
+		test.animator.addImages('idle', idle);
+		test.animator.addState('walk', 50);
+		test.animator.addImages('walk', walk);
 		test.width = 100;
 		test.height = 120;
 		test.posX = 0;
@@ -133,7 +141,7 @@ var path = __webpack_require__(5);
 	}
 
 	// window.requestAnimationFrame(main);
-	gi = setInterval(main, 100);
+	gi = setInterval(main, 1000/60);
 	// main();
 
 })();
@@ -172,18 +180,22 @@ module.exports = function(){
 		if(faceRight){
 			if(input.getKeyState('d') == 'down'){
 				this.posX += veloX;
+				this.animator.changeState('walk');
 			}else if(input.getKeyState('a') == 'down'){
 				faceRight = false;
+				this.animator.flip();
 			}else{
-
+				this.animator.changeState('idle');
 			}
 		}else{ // face left
 			if(input.getKeyState('a') == 'down'){
 				this.posX -= veloX;
+				this.animator.changeState('walk');
 			}else if(input.getKeyState('d') == 'down'){
 				faceRight = true;
+				this.animator.flip();
 			}else{
-
+				this.animator.changeState('idle');
 			}
 		}
 	}
@@ -237,14 +249,14 @@ module.exports = function(){
 	}
 
 	function drawFlipped(ctx, img, x, y, w, h){
-		ctx.translate(x+img.width, y);
+		ctx.translate(x+w, y);
 		ctx.scale(-1, 1);
 		ctx.drawImage(img, 0, 0, w, h);
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 
-	this.flip = function flip(b){
-		flipped = b;
+	this.flip = function flip(){
+		flipped = !flipped;
 	}
 
 	function nextImage(){
@@ -252,6 +264,8 @@ module.exports = function(){
 	}
 
 	this.changeState = function changeState(str){
+		if(states[activeState].name == str)
+			return;
 		for(var i = 0; i < states.length; i++){
 			if(str == states[i].name)
 			{

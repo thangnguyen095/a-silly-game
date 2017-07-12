@@ -24,14 +24,14 @@ module.exports = function(){
 	}
 
 	function drawFlipped(ctx, img, x, y, w, h){
-		ctx.translate(x+img.width, y);
+		ctx.translate(x+w, y);
 		ctx.scale(-1, 1);
 		ctx.drawImage(img, 0, 0, w, h);
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 
-	this.flip = function flip(b){
-		flipped = b;
+	this.flip = function flip(){
+		flipped = !flipped;
 	}
 
 	function nextImage(){
@@ -39,6 +39,8 @@ module.exports = function(){
 	}
 
 	this.changeState = function changeState(str){
+		if(states[activeState].name == str)
+			return;
 		for(var i = 0; i < states.length; i++){
 			if(str == states[i].name)
 			{

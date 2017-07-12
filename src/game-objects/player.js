@@ -28,18 +28,22 @@ module.exports = function(){
 		if(faceRight){
 			if(input.getKeyState('d') == 'down'){
 				this.posX += veloX;
+				this.animator.changeState('walk');
 			}else if(input.getKeyState('a') == 'down'){
 				faceRight = false;
+				this.animator.flip();
 			}else{
-
+				this.animator.changeState('idle');
 			}
 		}else{ // face left
 			if(input.getKeyState('a') == 'down'){
 				this.posX -= veloX;
+				this.animator.changeState('walk');
 			}else if(input.getKeyState('d') == 'down'){
 				faceRight = true;
+				this.animator.flip();
 			}else{
-
+				this.animator.changeState('idle');
 			}
 		}
 	}
