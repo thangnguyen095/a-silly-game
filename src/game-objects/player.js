@@ -11,7 +11,7 @@ module.exports = function(){
 	var jumping = false;
 	var jumpHeight = 150;
 	var jumpForce = 0;
-	var weight = 0.2;
+	var weight = 0.5;
 
 	this.init = function init(){
 		input.addKey('w', 87); // up

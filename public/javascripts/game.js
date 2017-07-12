@@ -60,16 +60,34 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Player = __webpack_require__(1);
-var Ground = __webpack_require__(7);
-var Sprite = __webpack_require__(2);
+var Animator = __webpack_require__(4);
+module.exports = function(){
+	this.animator = new Animator();
+	this.posX;
+	this.posY;
+	this.width;
+	this.height;
+
+	this.draw = function draw(ctx){
+		this.animator.draw(ctx, this.posX, this.posY, this.width, this.height);
+	}
+}
+
+/***/ }),
+/* 1 */,
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Player = __webpack_require__(3);
+var Ground = __webpack_require__(8);
+var Sprite = __webpack_require__(0);
 
 (function(){
 	var canvas = document.getElementById('game');
@@ -153,11 +171,11 @@ var Sprite = __webpack_require__(2);
 })();
 
 /***/ }),
-/* 1 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Sprite = __webpack_require__(2);
-var KeyboardInput = __webpack_require__(4);
+var Sprite = __webpack_require__(0);
+var KeyboardInput = __webpack_require__(5);
 
 module.exports = function(){
 	Sprite.call(this); // inherit from sprite
@@ -169,7 +187,7 @@ module.exports = function(){
 	var jumping = false;
 	var jumpHeight = 150;
 	var jumpForce = 0;
-	var weight = 0.2;
+	var weight = 0.5;
 
 	this.init = function init(){
 		input.addKey('w', 87); // up
@@ -278,24 +296,7 @@ module.exports = function(){
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Animator = __webpack_require__(3);
-module.exports = function(){
-	this.animator = new Animator();
-	this.posX;
-	this.posY;
-	this.width;
-	this.height;
-
-	this.draw = function draw(ctx){
-		this.animator.draw(ctx, this.posX, this.posY, this.width, this.height);
-	}
-}
-
-/***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = function(){
@@ -389,7 +390,7 @@ module.exports = function(){
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = function(){
@@ -441,12 +442,12 @@ module.exports = function(){
 }
 
 /***/ }),
-/* 5 */,
 /* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Sprite = __webpack_require__(2);
+var Sprite = __webpack_require__(0);
 
 module.exports = function(){
 	Sprite.call(this);
