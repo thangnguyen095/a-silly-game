@@ -7,8 +7,9 @@ module.exports = function(){
 
 	var input = new KeyboardInput();
 	var initVeloY = 10;
-	var veloX = 5;
-	var veloY = initVeloY;
+	var initVeloX = 5;
+	var veloX = 0;
+	var veloY = 0;
 	var faceRight = true;
 	var jumping = false;
 	// var jumpHeight = 150;
@@ -64,45 +65,44 @@ module.exports = function(){
 	}
 
 	this.handleCollision = function handleCollision(obj){
+		// temporary solution, need to be modified
 		this.posY = obj.posY - this.height;
-		veloY = initVeloY;
+		veloY = 0;
 		jumping = false;
 	}
 
 	this.update = function update(){
 		// X movement
-		if(faceRight){
-			if(input.getKeyState('d') == 'down'){
-				this.posX += veloX;
-				if(!jumping)
-					this.animator.changeState('walk');
-			}else if(input.getKeyState('a') == 'down'){
-				faceRight = false;
-				this.animator.flip();
-			}else{
-				if(!jumping)
-					this.animator.changeState('idle');
-			}
-		}else{ // face left
-			if(input.getKeyState('a') == 'down'){
-				this.posX -= veloX;
-				if(!jumping)
-					this.animator.changeState('walk');
-			}else if(input.getKeyState('d') == 'down'){
+		if(input.getKeyState('d') == 'down'){
+			if(!faceRight){
 				faceRight = true;
 				this.animator.flip();
-			}else{
-				if(!jumping)
-					this.animator.changeState('idle');
 			}
+			veloX = initVeloX;
+			if(!jumping)
+				this.animator.changeState('walk');
+		}else if(input.getKeyState('a') == 'down'){
+			if(faceRight){
+				faceRight = false;
+				this.animator.flip();
+			}
+			veloX = -initVeloX;
+			if(!jumping)
+				this.animator.changeState('walk');
+		} else {
+			veloX = 0;
+			if(!jumping)
+				this.animator.changeState('idle');			
 		}
+		this.posX += veloX;
 
 		// Y movement
 		if(input.getKeyState('w') == 'down' && !jumping){
-			jumping = true;
-			veloY = -veloY;
+			veloY = -initVeloY;
 			this.animator.changeState('jump');
 		}
+		if(veloY != 0)
+			jumping = true;
 		this.posY += veloY;
 		veloY += grav;
 	}
