@@ -1,12 +1,13 @@
 var Sprite = require('./sprite');
 var KeyboardInput = require('./KeyboardInput');
+var path = require('path');
 
 module.exports = function(){
 	Sprite.call(this); // inherit from sprite
 
 	var input = new KeyboardInput();
 	var veloX = 5;
-	var veloY = 5;
+	var veloY = 10;
 	var faceRight = true;
 	var jumping = false;
 	var jumpHeight = 150;
@@ -21,24 +22,38 @@ module.exports = function(){
 		var idle = new Array();
 		var walk = new Array();
 		var jump = new Array();
-		for(var i = 1; i <= 16; i++){
-			var img = new Image();
-			img.src = '/images/Idle ('+i+').png';
-			idle.push(img);
-		}
-		for(var i = 1; i <= 13; i++){
-			var img = new Image();
-			img.src = '/images/Walk ('+i+').png';
-			walk.push(img);
-		}
-		for(var i = 1; i <= 16; i++){
-			var img = new Image();
-			img.src = '/images/Jump ('+i+').png';
-			jump.push(img);
-		}
+		// old sprites
+		// for(var i = 1; i <= 16; i++){
+		// 	var img = new Image();
+		// 	img.src = '/images/Idle ('+i+').png';
+		// 	idle.push(img);
+		// }
+		// for(var i = 1; i <= 13; i++){
+		// 	var img = new Image();
+		// 	img.src = '/images/Walk ('+i+').png';
+		// 	walk.push(img);
+		// }
+		// for(var i = 1; i <= 16; i++){
+		// 	var img = new Image();
+		// 	img.src = '/images/Jump ('+i+').png';
+		// 	jump.push(img);
+		// }
+		// new sprite
+		var imgIdle = new Image();
+		imgIdle.src = '/images/adventurer_idle.png';
+		idle.push(imgIdle);
+		var imgJump = new Image();
+		imgJump.src = '/images/adventurer_jump.png';
+		jump.push(imgJump);
+		var imgWalk1 = new Image();
+		imgWalk1.src = '/images/adventurer_walk1.png';
+		walk.push(imgWalk1);
+		var imgWalk2 = new Image();
+		imgWalk2.src = '/images/adventurer_walk2.png';
+		walk.push(imgWalk2);
 		this.animator.addState('idle', 50, true);
 		this.animator.addImages('idle', idle);
-		this.animator.addState('walk', 50, true);
+		this.animator.addState('walk', 200, true);
 		this.animator.addImages('walk', walk);
 		this.animator.addState('jump', 50, false);
 		this.animator.addImages('jump', jump);
@@ -49,6 +64,7 @@ module.exports = function(){
 	}
 
 	this.handleCollision = function handleCollision(obj){
+		// need to be modified
 		if((this.posY + this.height) > obj.posY){
 			jumping = false;
 			veloY = 5;

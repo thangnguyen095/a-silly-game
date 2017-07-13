@@ -25,14 +25,14 @@ var Sprite = require('./game-objects/sprite');
 		bg.width = 1000;
 		bg.height = 750;
 		objects.background.push(bg);
-		var test = new Player();
-		test.width = 100;
-		test.height = 71;
-		test.posX = 0;
-		test.posY = 0;
-		test.init();
+		var player = new Player();
+		player.width = 80;
+		player.height = 110;
+		player.posX = 0;
+		player.posY = 0;
+		player.init();
+		objects.movable.push(player);
 
-		objects.movable.push(test);
 		for(var i = 0; i < 10; i++){
 			var gr = new Ground();
 			gr.width = 100;
