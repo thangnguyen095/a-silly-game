@@ -12,6 +12,7 @@ module.exports = function(){
 	var veloY = 0;
 	var faceRight = true;
 	var jumping = false;
+	var grounded = false;
 	// var jumpHeight = 150;
 	var grav = 0.5;
 
@@ -69,6 +70,7 @@ module.exports = function(){
 		this.posY = obj.posY - this.height;
 		veloY = 0;
 		jumping = false;
+		grounded = true;
 	}
 
 	this.update = function update(){
@@ -97,12 +99,11 @@ module.exports = function(){
 		this.posX += veloX;
 
 		// Y movement
-		if(input.getKeyState('w') == 'down' && !jumping){
+		if(input.getKeyState('w') == 'down' && !jumping && grounded){
 			veloY = -initVeloY;
 			this.animator.changeState('jump');
-		}
-		if(veloY != 0)
 			jumping = true;
+		}
 		this.posY += veloY;
 		veloY += grav;
 	}
