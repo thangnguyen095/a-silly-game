@@ -6,8 +6,9 @@ module.exports = function(){
 	Sprite.call(this); // inherit from sprite
 
 	var input = new KeyboardInput();
+	var initVeloY = 10;
 	var veloX = 5;
-	var veloY = 5;
+	var veloY = initVeloY;
 	var faceRight = true;
 	var jumping = false;
 	// var jumpHeight = 150;
@@ -64,7 +65,7 @@ module.exports = function(){
 
 	this.handleCollision = function handleCollision(obj){
 		this.posY = obj.posY - this.height;
-		veloY = 10;
+		veloY = initVeloY;
 		jumping = false;
 	}
 
