@@ -7,16 +7,15 @@ module.exports = function(){
 
 	var input = new KeyboardInput();
 	var veloX = 5;
-	var veloY = 10;
+	var veloY = 5;
 	var faceRight = true;
 	var jumping = false;
-	var jumpHeight = 150;
-	var jumpForce = 0;
-	var weight = 0.5;
+	// var jumpHeight = 150;
+	var grav = 0.5;
 
 	this.init = function init(){
 		input.addKey('w', 87); // up
-		input.addKey('a', 65);  // left
+		input.addKey('a', 65); // left
 		input.addKey('s', 83); // down
 		input.addKey('d', 68); // right
 		var idle = new Array();
@@ -64,25 +63,9 @@ module.exports = function(){
 	}
 
 	this.handleCollision = function handleCollision(obj){
-		// need to be modified
-		if((this.posY + this.height) > obj.posY){
-			jumping = false;
-			veloY = 5;
-			this.posY = obj.posY - this.height;
-			console.log('below');
-		}
-		// if(this.posY < (obj.posY + obj.height)){
-		// 	this.posY = obj.posY + obj.height;
-		// 	console.log('above');
-		// }
-		// if((this.posX + this.width) > obj.posX){
-		// 	this.posX = obj.posX - this.width;
-		// 	console.log('right');
-		// }
-		// if(this.posX < (obj.posX + obj.width)){
-		// 	this.posX = obj.posX + obj.width;
-		// 	console.log('left');
-		// }
+		this.posY = obj.posY - this.height;
+		veloY = 10;
+		jumping = false;
 	}
 
 	this.update = function update(){
@@ -115,21 +98,11 @@ module.exports = function(){
 
 		// Y movement
 		if(input.getKeyState('w') == 'down' && !jumping){
-			jumpForce = jumpHeight;
 			jumping = true;
+			veloY = -veloY;
 			this.animator.changeState('jump');
 		}
-		if(jumpForce != 0){
-			jumpForce -= veloY;
-			this.posY -= veloY;
-			veloY += weight;
-			if(jumpForce <= 0){
-				jumpForce = 0;
-				veloY = 5;
-			}
-		}else{
-			this.posY += veloY;
-			veloY += weight;
-		}
+		this.posY += veloY;
+		veloY += grav;
 	}
 }
