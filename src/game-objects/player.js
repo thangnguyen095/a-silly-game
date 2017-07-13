@@ -106,5 +106,6 @@ module.exports = function(){
 		}
 		this.posY += veloY;
 		veloY += grav;
+		grounded = false;
 	}
 }
