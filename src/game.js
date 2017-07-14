@@ -17,7 +17,7 @@ var Sprite = require('./game-objects/sprite');
 	function init(){
 		var bg = new Sprite();
 		var img = new Image();
-		img.src = require('../images/BG.png');
+		img.src = require('./images/BG.png');
 		bg.animator.addState('idle', 1000, false);
 		bg.animator.addImage('idle', img);
 		bg.posX = 0;

@@ -42,16 +42,16 @@ module.exports = function(){
 		// }
 		// new sprite
 		var imgIdle = new Image();
-		imgIdle.src = require('../../images/adventurer_idle.png');
+		imgIdle.src = require('../images/adventurer_idle.png');
 		idle.push(imgIdle);
 		var imgJump = new Image();
-		imgJump.src = require('../../images/adventurer_jump.png');
+		imgJump.src = require('../images/adventurer_jump.png');
 		jump.push(imgJump);
 		var imgWalk1 = new Image();
-		imgWalk1.src = require('../../images/adventurer_walk1.png');
+		imgWalk1.src = require('../images/adventurer_walk1.png');
 		walk.push(imgWalk1);
 		var imgWalk2 = new Image();
-		imgWalk2.src = require('../../images/adventurer_walk2.png');
+		imgWalk2.src = require('../images/adventurer_walk2.png');
 		walk.push(imgWalk2);
 		this.animator.addState('idle', 50, true);
 		this.animator.addImages('idle', idle);
