@@ -5,7 +5,7 @@ module.exports = function(){
 
 	this.init = function(){
 		var img = new Image();
-		img.src = '/images/2.png'
+		img.src = require('../../images/2.png');
 		this.animator.addState('idle', 1000, false);
 		this.animator.addImage('idle', img);
 	}
