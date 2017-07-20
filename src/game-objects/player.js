@@ -67,10 +67,27 @@ module.exports = function(){
 
 	this.handleCollision = function handleCollision(obj){
 		// temporary solution, need to be modified
-		this.posY = obj.posY - this.height;
-		veloY = 0;
-		jumping = false;
-		grounded = true;
+		if((this.posY + this.height) > obj.posY && (this.posY + this.height) <  (obj.posY + obj.height)){ // below
+			this.posY = obj.posY - this.height;
+			veloY = 0;
+			jumping = false;
+			grounded = true;
+		}
+
+		if(this.posY < (obj.posY + obj.height) && this.posY > obj.posY){ // above
+			this.posY = obj.posY + obj.height;
+			veloY *= -1;
+		}
+
+		if(this.posX < (obj.posX + obj.width) && this.posX > obj.posX && (this.posY + this.height) >= (obj.posY + obj.height) && this.posY > (obj.posY + obj.height)){ // left
+			this.posX = obj.posX + obj.width;
+			veloX = 0;
+		}
+
+		if((this.posX + this.width) > obj.posX && (this.posX + this.width) < (obj.posX + obj.width) && (this.posY + this.height) >= (obj.posY + obj.height) && this.posY > (obj.posY + obj.height)){ // right
+			this.posX = obj.posX - this.width;
+			veloX = 0;
+		}
 	}
 
 	this.update = function update(){
